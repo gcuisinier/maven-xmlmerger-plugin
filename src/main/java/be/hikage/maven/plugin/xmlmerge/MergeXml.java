@@ -17,12 +17,7 @@
 package be.hikage.maven.plugin.xmlmerge;
 
 import org.dom4j.*;
-import org.dom4j.io.OutputFormat;
-import org.dom4j.io.SAXReader;
-import org.dom4j.io.XMLWriter;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -31,35 +26,15 @@ import java.util.Map;
 /**
  * TODO
  */
-public class MergeXml {
-    public static void mergeXml(File baseFile, File fileToMerge) throws DocumentException, IOException {
-
-        Document base = loadXml(baseFile);
-        Document mergeData = loadXml(fileToMerge);
-
+public class MergeXml implements XmlMerger {
+    @Override
+    public void mergeXml(Document documentBase, Document mergeData) throws DocumentException, IOException {
         Map<String, String> namespaceUris = prepareNamespace(mergeData);
 
-        processAdd(mergeData, base, namespaceUris);
-
-        writeMergedXml(baseFile, base);
-        deleteMergeFile(fileToMerge);
+        processAdd(mergeData, documentBase, namespaceUris);
 
     }
 
-    private static void deleteMergeFile(File fileToMerge) {
-        fileToMerge.delete();
-
-    }
-
-    private static void writeMergedXml(File baseFile, Document base) throws IOException {
-        FileOutputStream fos = new FileOutputStream(baseFile);
-        OutputFormat format = OutputFormat.createPrettyPrint();
-        XMLWriter writer = new XMLWriter(fos, format);
-        writer.write(base);
-        writer.flush();
-        writer.close();
-
-    }
 
     private static Map<String, String> prepareNamespace(Document mergeData) {
         Map<String, String> namespaceUris = new HashMap<String, String>();
@@ -73,6 +48,7 @@ public class MergeXml {
         return namespaceUris;
 
     }
+
 
     private static void processAdd(Document mergeData, Document base, Map<String, String> namespaceUris) {
         List addNodes = mergeData.selectNodes("/Merge/Add");
@@ -99,10 +75,4 @@ public class MergeXml {
         }
 
     }
-
-    private static Document loadXml(File baseFile) throws DocumentException {
-        SAXReader reader = new SAXReader();
-        return reader.read(baseFile);
-    }
-
 }

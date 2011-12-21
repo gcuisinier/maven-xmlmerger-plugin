@@ -21,8 +21,15 @@ import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.SAXReader;
+import org.dom4j.io.XMLWriter;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -46,6 +53,12 @@ public class MergeXmlMojo
      */
     private File outputDirectory;
 
+
+    /**
+     *
+     */
+    private XmlMerger xmlMerger;
+
     private String pattern = "(MERGE\\.)(.*)";
 
     public void execute() throws MojoExecutionException {
@@ -67,7 +80,9 @@ public class MergeXmlMojo
                         getLog().info("Merge file " + fileToMerge.getName());
                         File baseFile = new File(fileToMerge.getParentFile(), matcher.group(2));
 
-                        MergeXml.mergeXml(baseFile, fileToMerge);
+
+                        xmlMerger.mergeXml(loadXml(baseFile), loadXml(fileToMerge));
+
                     } else {
                         getLog().warn("No filebase found for " + fileToMerge.getAbsolutePath());
                     }
@@ -96,6 +111,26 @@ public class MergeXmlMojo
         Collection<File> filesFound = FileUtils.listFiles(fileToProcess, filter2, DirectoryFileFilter.DIRECTORY);
 
         xmlFiles.addAll(filesFound);
+
+    }
+
+    private Document loadXml(File baseFile) throws DocumentException {
+        SAXReader reader = new SAXReader();
+        return reader.read(baseFile);
+    }
+
+    private void deleteMergeFile(File fileToMerge) {
+        fileToMerge.delete();
+
+    }
+
+    private void writeMergedXml(File baseFile, Document base) throws IOException {
+        FileOutputStream fos = new FileOutputStream(baseFile);
+        OutputFormat format = OutputFormat.createPrettyPrint();
+        XMLWriter writer = new XMLWriter(fos, format);
+        writer.write(base);
+        writer.flush();
+        writer.close();
 
     }
 }
