@@ -32,7 +32,33 @@ public class MergeXml implements XmlMerger {
         Map<String, String> namespaceUris = prepareNamespace(mergeData);
 
         processAdd(mergeData, documentBase, namespaceUris);
+        processReplaceContent(mergeData, documentBase, namespaceUris);
 
+    }
+
+    private void processReplaceContent(Document mergeData, Document documentBase, Map<String, String> namespaceUris) {
+        List remplaceNode = mergeData.selectNodes("/Merge/ReplaceContent");
+
+        for (Object node : remplaceNode) {
+            if (node instanceof Element) {
+                Element remplaceElement = (Element) node;
+                String xPathToFind = remplaceElement.attributeValue("xpath");
+
+                XPath xPath = DocumentHelper.createXPath(xPathToFind);
+                xPath.setNamespaceURIs(namespaceUris);
+
+                Node targetNode = xPath.selectSingleNode(documentBase);
+
+                if (targetNode != null) {
+                    if (targetNode instanceof Element) {
+                        Element targetElement = (Element) targetNode;
+                        Element copy = remplaceElement.createCopy();
+                        targetElement.setContent(copy.content());
+                    }
+                }
+
+            }
+        }
     }
 
 
@@ -50,7 +76,7 @@ public class MergeXml implements XmlMerger {
     }
 
 
-    private static void processAdd(Document mergeData, Document base, Map<String, String> namespaceUris) {
+    private void processAdd(Document mergeData, Document base, Map<String, String> namespaceUris) {
         List addNodes = mergeData.selectNodes("/Merge/Add");
 
         for (Object node : addNodes) {

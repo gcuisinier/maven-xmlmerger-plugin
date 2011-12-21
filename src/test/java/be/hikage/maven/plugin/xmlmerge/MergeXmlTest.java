@@ -72,6 +72,32 @@ public class MergeXmlTest {
         XMLAssert.assertXMLEqual(expected.asXML(), baseDocument.asXML());
     }
 
+    @Test
+    public void testReplaceContentInExistingContainer() throws DocumentException, SAXException, IOException {
+
+        Document mergeData = loadXml("TestReplaceContent-InExistingContainer.xml");
+
+        merger.mergeXml(baseDocument, mergeData);
+
+        Document expected = loadXml("TestReplaceContent-InExistingContainerExpectedResult.xml");
+
+        XMLAssert.assertXMLEqual(expected.asXML(), baseDocument.asXML());
+    }
+
+    @Test
+    public void testNamespace() throws DocumentException, SAXException, IOException {
+
+        baseDocument = loadXml("BaseDocumentNamespace.xml");
+
+        Document mergeData = loadXml("TestNamespace.xml");
+
+        merger.mergeXml(baseDocument, mergeData);
+
+        Document expected = loadXml("TestNamespace-ExpectedResult.xml");
+
+        XMLAssert.assertXMLEqual(expected.asXML(), baseDocument.asXML());
+    }
+
 
     private Document loadXml(String filename) throws DocumentException {
         SAXReader reader = new SAXReader();
@@ -79,16 +105,5 @@ public class MergeXmlTest {
         return reader.read(inputStream);
     }
 
-    /*private assertXmlEquats(String expected, String actual) throws IOException, SAXException {
 
-        XMLUnit.setNormalize(true);
-        XMLUnit.setIgnoreWhitespace(true);
-
-        DetailedDiff detailedDiff = new DetailedDiff(new Diff(expected, actual));
-
-        for (Difference dif : detailedDiff.getAllDifferences()) {
-
-        }
-
-    }*/
 }
