@@ -55,7 +55,10 @@ public class MergeXmlMojo
 
 
     /**
+     * The Xml Merge component instance that will be injected
+     * by the Plexus runtime.
      *
+     * @component
      */
     private XmlMerger xmlMerger;
 
