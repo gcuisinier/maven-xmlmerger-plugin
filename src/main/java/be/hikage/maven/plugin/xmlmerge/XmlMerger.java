@@ -17,14 +17,19 @@
 package be.hikage.maven.plugin.xmlmerge;
 
 import org.dom4j.Document;
-import org.dom4j.DocumentException;
-
-import java.io.IOException;
 
 /**
  * Component that Merge the XML Framgment contained in the mergeData into
  * the documentBase
  */
 public interface XmlMerger {
-    Document mergeXml(Document documentBase, Document mergeData) throws DocumentException, IOException;
+
+    /**
+     * Merge two XML Document
+     *
+     * @param documentBase The basic XML document that will be altered
+     * @param mergeData    The XML document that contains instructions to be merged
+     * @return The XML document resulting from the merger
+     */
+    Document mergeXml(Document documentBase, Document mergeData);
 }

@@ -14,27 +14,14 @@
  *   limitations under the License.
  */
 
-package be.hikage.maven.plugin.xmlmerge;
 
-import be.hikage.xdt4j.XdtTransformer;
-import org.codehaus.plexus.component.annotations.Component;
-import org.codehaus.plexus.component.annotations.Requirement;
-import org.dom4j.Document;
 
-import java.util.logging.Logger;
+import org.apache.commons.io.FileUtils
 
-@Component(role = XmlMerger.class)
-public class XdtMerger implements XmlMerger {
+File file = new File(basedir, "target/classes/pom.xml");
 
-    @Requirement
-    Logger logger;
+String pomContent = FileUtils.readFileToString(file);
 
-    @Override
-    public Document mergeXml(Document documentBase, Document mergeData) {
-
-        XdtTransformer transformer = new XdtTransformer();
-
-        return transformer.transform(documentBase, mergeData);
-
-    }
-}
+if (!pomContent.
+        contains("<groupId>junit</groupId>") || !pomContent.contains("<artifactId>xdt4j</artifactId>"))
+    throw new RuntimeException("The generated projet do not containe all data needed");

@@ -80,14 +80,23 @@ public class MergeXmlMojo
      */
     private XmlMerger xmlMerger;
 
-    private String pattern = "(MERGE\\.)(.*)";
+    /**
+     * The mergeFilenamePattern used to find XML Document to merge.
+     * It have to return two groups, including the second is the name of the file in which it must be merged.
+     * The default pattern assume that the XML Document to be merged has the same name as the base XML Document
+     *
+     * @parameter default-value="()(.*)"
+     * @required
+     */
+    private String mergeFilenamePattern;
 
     public void execute() throws MojoExecutionException {
         getLog().info("EXECUTE on " + outputDirectory.getAbsolutePath());
         List<File> xmlFiles = new ArrayList<File>();
 
-        Pattern regex = Pattern.compile(pattern);
+        Pattern regex = Pattern.compile(mergeFilenamePattern);
 
+        getLog().info("Search file that match " + mergeFilenamePattern);
         findXmlToMerge(inputDirectory, xmlFiles);
 
         getLog().info("Number of file found to merge :" + xmlFiles.size());
@@ -99,21 +108,16 @@ public class MergeXmlMojo
                 if (matcher.matches() && matcher.groupCount() == 2) {
                     String baseFileName = matcher.group(2);
 
-                    getLog().info("Group 1 : " + matcher.group(1));
-                    getLog().info("Group 2 : " + matcher.group(2));
 
                     File basefile = getBaseFile(fileToMerge, baseFileName);
 
                     File outputFile = getOutputFile(fileToMerge, baseFileName);
 
-                    getLog().info("Merge Base :" + basefile.getAbsolutePath());
-                    getLog().info("Merge Transform :" + fileToMerge.getAbsolutePath());
-                    getLog().info("Merge Output :" + outputFile.getAbsolutePath());
+                    getLog().debug("Merge Base :" + basefile.getAbsolutePath());
+                    getLog().debug("Merge Transform :" + fileToMerge.getAbsolutePath());
+                    getLog().debug("Merge Output :" + outputFile.getAbsolutePath());
 
                     if (basefile.exists()) {
-                        getLog().info("Merge file " + fileToMerge.getName());
-                        //File baseFile = new File(fileToMerge.getParentFile(), baseFileName);
-
 
                         Document result = xmlMerger.mergeXml(loadXml(basefile), loadXml(fileToMerge));
 
@@ -125,7 +129,8 @@ public class MergeXmlMojo
 
 
                 } else {
-                    getLog().warn("The file do not matches regex");
+                    throw new MojoExecutionException("The file do not matches regex");
+
                 }
             }
         } catch (Exception e) {
@@ -137,11 +142,7 @@ public class MergeXmlMojo
     private File getBaseFile(File fileToMerge, String baseFileName) {
 
         String relativePath = PathUtils.getRelativePath(fileToMerge, inputDirectory).replace(fileToMerge.getName(), "");
-
-        System.out.println("RELATIVE :" + relativePath);
-
         File baseFile = new File(baseDirectory, relativePath + baseFileName);
-
 
         return baseFile;
     }
@@ -149,17 +150,14 @@ public class MergeXmlMojo
     private File getOutputFile(File fileToMerge, String baseFileName) {
 
         String relativePath = PathUtils.getRelativePath(fileToMerge, inputDirectory).replace(fileToMerge.getName(), "");
-
         File outputFile = new File(outputDirectory, relativePath + baseFileName);
-
-
         return outputFile;
     }
 
 
     private void findXmlToMerge(File fileToProcess, List<File> xmlFiles) {
 
-        RegexFileFilter filter2 = new RegexFileFilter(pattern);
+        RegexFileFilter filter2 = new RegexFileFilter(mergeFilenamePattern);
 
         Collection<File> filesFound = FileUtils.listFiles(fileToProcess, filter2, DirectoryFileFilter.DIRECTORY);
 

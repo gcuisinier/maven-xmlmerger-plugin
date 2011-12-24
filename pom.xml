@@ -119,16 +119,23 @@
                             <pomIncludes>
                                 <pomInclude>*/pom.xml</pomInclude>
                             </pomIncludes>
-                            <preBuildHookScript>setup</preBuildHookScript>
-                            <postBuildHookScript>verify</postBuildHookScript>
+                            <preBuildHookScript>setup.groovy</preBuildHookScript>
+                            <postBuildHookScript>verify.groovy</postBuildHookScript>
                             <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
                             <settingsFile>src/it/settings.xml</settingsFile>
-                            <debug>false</debug>
+                            <debug>true</debug>
                             <goals>
                                 <goal>clean</goal>
                                 <goal>verify</goal>
                             </goals>
                         </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>commons-io</groupId>
+                                <artifactId>commons-io</artifactId>
+                                <version>2.1</version>
+                            </dependency>
+                        </dependencies>
                         <executions>
                             <execution>
                                 <id>integration-test</id>
@@ -137,6 +144,7 @@
                                     <goal>run</goal>
                                 </goals>
                             </execution>
+
                         </executions>
                     </plugin>
                 </plugins>

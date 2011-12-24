@@ -36,11 +36,7 @@
                         <goals>
                             <goal>mergexml</goal>
                         </goals>
-                        <configuration>
-                            <inputDirectory>${basedir}/src/main/xmlmerge</inputDirectory>
-                        </configuration>
 
-                        <phase>prepare-package</phase>
                     </execution>
                 </executions>
             </plugin>
