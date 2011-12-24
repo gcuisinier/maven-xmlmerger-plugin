@@ -14,17 +14,26 @@
  *   limitations under the License.
  */
 
-package be.hikage.maven.plugin.xmlmerge;
+package be.hikage.maven.plugin.xmlmerge.utils;
 
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
+import org.junit.Assert;
+import org.junit.Test;
 
-import java.io.IOException;
+import java.io.File;
 
-/**
- * Component that Merge the XML Framgment contained in the mergeData into
- * the documentBase
- */
-public interface XmlMerger {
-    Document mergeXml(Document documentBase, Document mergeData) throws DocumentException, IOException;
+public class PathUtilsTest {
+
+
+    @Test
+    public void testSimpleUnix() {
+
+        File target = new File("/Users/hikage/Dev/opensource/maven-xmlmerge-plugin/pom.xml");
+        File base = new File("/Users/hikage/");
+
+        String relativePath = PathUtils.getRelativePath(target, base);
+
+        Assert.assertEquals("/Dev/opensource/maven-xmlmerge-plugin/pom.xml", relativePath);
+    }
+
+
 }

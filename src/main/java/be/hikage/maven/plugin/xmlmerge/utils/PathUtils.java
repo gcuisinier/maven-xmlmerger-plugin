@@ -14,17 +14,26 @@
  *   limitations under the License.
  */
 
-package be.hikage.maven.plugin.xmlmerge;
+package be.hikage.maven.plugin.xmlmerge.utils;
 
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
+import org.apache.commons.io.FilenameUtils;
 
-import java.io.IOException;
+import java.io.File;
 
-/**
- * Component that Merge the XML Framgment contained in the mergeData into
- * the documentBase
- */
-public interface XmlMerger {
-    Document mergeXml(Document documentBase, Document mergeData) throws DocumentException, IOException;
+public class PathUtils {
+
+
+    public static String getRelativePath(File children, File base) {
+
+        String normalizedTargetPath = FilenameUtils.normalizeNoEndSeparator(children.getAbsolutePath());
+        String normalizedBasePath = FilenameUtils.normalizeNoEndSeparator(base.getAbsolutePath());
+
+        System.out.println(normalizedTargetPath);
+        System.out.println(normalizedBasePath);
+
+
+        return normalizedTargetPath.substring(normalizedBasePath.length());
+
+
+    }
 }

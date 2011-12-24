@@ -16,15 +16,21 @@
 
 package be.hikage.maven.plugin.xmlmerge;
 
+import be.hikage.xdt4j.XdtTransformer;
+import org.codehaus.plexus.component.annotations.Component;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 
 import java.io.IOException;
 
-/**
- * Component that Merge the XML Framgment contained in the mergeData into
- * the documentBase
- */
-public interface XmlMerger {
-    Document mergeXml(Document documentBase, Document mergeData) throws DocumentException, IOException;
+@Component(role = XmlMerger.class)
+public class XdtMerger implements XmlMerger {
+    @Override
+    public Document mergeXml(Document documentBase, Document mergeData) throws DocumentException, IOException {
+
+        XdtTransformer transformer = new XdtTransformer();
+
+        return transformer.transform(documentBase, mergeData);
+
+    }
 }

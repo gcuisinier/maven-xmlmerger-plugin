@@ -16,6 +16,7 @@
 
 package be.hikage.maven.plugin.xmlmerge;
 
+import be.hikage.maven.plugin.xmlmerge.utils.PathUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.commons.io.filefilter.RegexFileFilter;
@@ -45,6 +46,23 @@ import java.util.regex.Pattern;
 public class MergeXmlMojo
         extends AbstractMojo {
 
+
+    /**
+     * The input directory in which the XML Merge Data can be found.
+     *
+     * @parameter default-value="${basedir}/src/main/xmlmerge"
+     * @required
+     */
+    private File inputDirectory;
+
+    /**
+     * The input directory in which the XML Document base can be found.
+     *
+     * @parameter default-value="${project.build.outputDirectory}"
+     * @required
+     */
+    private File baseDirectory;
+
     /**
      * The output directory into which to copy the resources.
      *
@@ -70,21 +88,36 @@ public class MergeXmlMojo
 
         Pattern regex = Pattern.compile(pattern);
 
-        findXmlToMerge(outputDirectory, xmlFiles);
+        findXmlToMerge(inputDirectory, xmlFiles);
 
-        getLog().info("FILE FOUND :" + xmlFiles.size());
+        getLog().info("Number of file found to merge :" + xmlFiles.size());
 
 
         try {
             for (File fileToMerge : xmlFiles) {
                 Matcher matcher = regex.matcher(fileToMerge.getName());
                 if (matcher.matches() && matcher.groupCount() == 2) {
-                    if (checkFilebaseExist(fileToMerge.getParentFile(), matcher.group(2))) {
+                    String baseFileName = matcher.group(2);
+
+                    getLog().info("Group 1 : " + matcher.group(1));
+                    getLog().info("Group 2 : " + matcher.group(2));
+
+                    File basefile = getBaseFile(fileToMerge, baseFileName);
+
+                    File outputFile = getOutputFile(fileToMerge, baseFileName);
+
+                    getLog().info("Merge Base :" + basefile.getAbsolutePath());
+                    getLog().info("Merge Transform :" + fileToMerge.getAbsolutePath());
+                    getLog().info("Merge Output :" + outputFile.getAbsolutePath());
+
+                    if (basefile.exists()) {
                         getLog().info("Merge file " + fileToMerge.getName());
-                        File baseFile = new File(fileToMerge.getParentFile(), matcher.group(2));
+                        //File baseFile = new File(fileToMerge.getParentFile(), baseFileName);
 
 
-                        xmlMerger.mergeXml(loadXml(baseFile), loadXml(fileToMerge));
+                        Document result = xmlMerger.mergeXml(loadXml(basefile), loadXml(fileToMerge));
+
+                        writeMergedXml(outputFile, result);
 
                     } else {
                         getLog().warn("No filebase found for " + fileToMerge.getAbsolutePath());
@@ -101,11 +134,28 @@ public class MergeXmlMojo
 
     }
 
-    private boolean checkFilebaseExist(File baseFolder, String group) {
-        File baseFile = new File(baseFolder, group);
-        return baseFile.exists();
+    private File getBaseFile(File fileToMerge, String baseFileName) {
 
+        String relativePath = PathUtils.getRelativePath(fileToMerge, inputDirectory).replace(fileToMerge.getName(), "");
+
+        System.out.println("RELATIVE :" + relativePath);
+
+        File baseFile = new File(baseDirectory, relativePath + baseFileName);
+
+
+        return baseFile;
     }
+
+    private File getOutputFile(File fileToMerge, String baseFileName) {
+
+        String relativePath = PathUtils.getRelativePath(fileToMerge, inputDirectory).replace(fileToMerge.getName(), "");
+
+        File outputFile = new File(outputDirectory, relativePath + baseFileName);
+
+
+        return outputFile;
+    }
+
 
     private void findXmlToMerge(File fileToProcess, List<File> xmlFiles) {
 
