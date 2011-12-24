@@ -38,7 +38,7 @@
                         </goals>
                         <configuration>
                             <mergeFilenamePattern>(MERGE\.)(.*)</mergeFilenamePattern>
-                            <inputDirectory>${project.build.directory}</inputDirectory>
+                            <inputDirectory>${project.build.outputDirectory}</inputDirectory>
                         </configuration>
                     </execution>
                 </executions>
