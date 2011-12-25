@@ -1,11 +1,8 @@
-#Maven XML Merge
+#Maven XML Merge Plugin
 
-Provide an Java implementation of the Microsoft XML Document Transform (XDT) language that was included with Visual Studio 2010 for transforming XML configuration files.
-It is inspired from the work of the Opensource C# implementation (http://code.google.com/p/xdt/)
+Plugin maven that allow to merge a XML Document with another one annotated by XDT processing instructions
 
-This allow to modify, extend or clean an XML simply.
-
-By example, binding this XML
+By example, merging this XML DOcument
 
 	<Root>
 		<Logging>
@@ -31,50 +28,65 @@ generate this last :
 	</Root>
 
 
+For more information of merging possibility, read the documentation of https://github.com/hikage/xdt4j
+
 ##Building
 
     mvn clean install
 
 
-##Available transformations
 
-### Insert
+Usage
+=====
+##Maven Repository
 
-Adds the element that is defined in the transform file as a sibling to the selected element or elements. The new element is added at the end of any collection.
+Until the plugin is in the Maven Central, to use it, you had to add this repository :
 
-
-### InsertBefore
-
-Inserts the element that is defined in the transform XML directly before the element that is selected by the specified XPath expression. The XPath expression must be an absolute expression, because it is applied to the development Web.config file as a whole; it is not appended only to the current element's implicit XPath expression.
-
-### InsertAfter
-
-Inserts the element that is defined in the transform XML directly after the element that is selected by the specified XPath expression. The XPath expression must be an absolute expression, because it is applied to the development Web.config file as a whole; it is not appended to the current element's implicit XPath expression.
-
-### Remove
-
-Removes the selected element. If multiple elements are selected, removes the first element.
-
-### RemoveAll
-
-Removes the selected element or elements.
-
-
-### SetAttribute
-
-Sets attributes for selected elements to the specified values. The Replace transform attribute replaces an entire element including all of its attributes. In contrast, the SetAttributes attribute enables you to leave the element as it is but change selected attributes. If you do not specify which attributes to change, all of the attributes that are present in the element in the transform file are changed.
-
-The SetAttributes transform affects all selected elements. This is different from the Replace transform attribute, which affects only the first selected element if multiple elements are selected.
-
-### RemoveAttribute
-
-Removes specified attributes from the selected elements.
-If you do not specify which attributes to change, all of the attributes present are removed
-
-### Replace
-
-Replaces the selected element with the element that is specified in the transform file. If more than one element is selected, only the first selected element is replaced. For an example of how to use the Replace keyword, see the examples for the Locator attributes.
+     <pluginRepositories>
+        <pluginRepository>
+          <id>OSS Sonatype</id>
+          <name>OSS Sonatype Repository</name>
+          <url> https://oss.sonatype.org/content/groups/public</url>
+          <layout>default</layout>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+          <releases>
+            <updatePolicy>never</updatePolicy>
+          </releases>
+        </pluginRepository>
+      </pluginRepositories>
 
 
 
 
+##Available Goal
+
+### xmlmerger:mergexml
+
+#### Parameters
+
+**baseDirectory** :
+
+* **Type **:          java.lang.File
+* **Description**:    The input directory in which the XML Document base can be found.
+*  **Default value** :  ${project.build.outputDirectory}
+
+**inputDirectory** :
+
+* **Type **:          java.lang.File
+* **Description**:    The input directory in which the XML Merge Data can be found.
+*  **Default value** :  ${basedir}/src/main/xmlmerge
+
+
+**outputDirectory** :
+
+* **Type **:          java.lang.File
+* **Description**:    The output directory into which to copy the genereated XML.
+*  **Default value** :  ${project.build.outputDirectory}
+
+**mergeFilenamePattern** :
+
+* **Type **:          java.lang.File
+* **Description**:    The mergeFilenamePattern used to find XML Document to merge. It have to return two groups, including the second is the name of the file in which it must be merged. The default pattern assume that the XML Document to be merged has the same name as the base XML Document
+*  **Default value** :  ()(.*)
