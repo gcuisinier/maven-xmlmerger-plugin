@@ -13,22 +13,25 @@ By example, merging this XML DOcument
 ```
 
 with this one :
-	
-	<Root xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
-		<Logging>
-			<Logger name="second" level="WARN" xdt:Transform="Insert" />
-		</Logging>
-	</Root>
+
+```xml
+<Root xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+    <Logging>
+        <Logger name="second" level="WARN" xdt:Transform="Insert" />
+    </Logging>
+</Root>
+```
 
 generate this last :
 
-	<Root>
-		<Logging>
-			<Logger name="myFirst" level="INFO"/>
-			<Logger name="second" level="WARN" />
-			</Logging>
-	</Root>
-
+```xml
+<Root>
+    <Logging>
+        <Logger name="myFirst" level="INFO"/>
+            <Logger name="second" level="WARN" />
+    </Logging>
+</Root>
+``
 
 For more information of merging possibility, read the documentation of https://github.com/hikage/xdt4j
 
@@ -44,6 +47,7 @@ Usage
 
 Until the plugin is in the Maven Central, to use it, you had to add this repository :
 
+```xml
      <pluginRepositories>
         <pluginRepository>
           <id>OSS Sonatype</id>
@@ -58,7 +62,7 @@ Until the plugin is in the Maven Central, to use it, you had to add this reposit
           </releases>
         </pluginRepository>
       </pluginRepositories>
-
+```
 
 
 
