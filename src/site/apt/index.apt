@@ -1,0 +1,20 @@
+ ------
+ Introduction
+ ------
+ ------
+
+My first Maven Plugin
+
+ Provides support for using my software with Maven 2.
+
+* Goals Overview
+
+ All the goals available in My First Maven Plugin can be found on the {{{usage.html}goals page}}.
+
+ []
+
+* Usage
+
+ Instructions on how to use the Selenium Maven Plugin can be found on the {{{usage.html}usage page}}.
+
+ []
