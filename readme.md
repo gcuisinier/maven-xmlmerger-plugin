@@ -3,13 +3,13 @@
 Plugin maven that allow to merge a XML Document with another one annotated by XDT processing instructions
 
 By example, merging this XML DOcument
-```xml
+
     <Root>
         <Logging>
             <Logger name="myFirst" level="INFO"/>
         </Logging>
     </Root>
-```
+
 with this one :
 	
 	<Root xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
