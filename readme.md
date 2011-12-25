@@ -4,11 +4,13 @@ Plugin maven that allow to merge a XML Document with another one annotated by XD
 
 By example, merging this XML DOcument
 
-    <Root>
-        <Logging>
-            <Logger name="myFirst" level="INFO"/>
-        </Logging>
-    </Root>
+```xml
+<Root xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+    <Logging>
+        <Logger name="second" level="WARN" xdt:Transform="Insert" />
+    </Logging>
+</Root>
+```
 
 with this one :
 	
