@@ -3,13 +3,13 @@
 Plugin maven that allow to merge a XML Document with another one annotated by XDT processing instructions
 
 By example, merging this XML DOcument
-
+```xml
 	<Root>
 		<Logging>
 			<Logger name="myFirst" level="INFO"/>
 		</Logging>
 	</Root>
-	
+```
 with this one :
 	
 	<Root xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
@@ -64,7 +64,7 @@ Until the plugin is in the Maven Central, to use it, you had to add this reposit
 
 ### xmlmerger:mergexml
 
-Here is the availables parameters for this goal :
+Here is the available parameters for this goal :
 
 **baseDirectory** :
 
@@ -87,6 +87,6 @@ Here is the availables parameters for this goal :
 
 **mergeFilenamePattern** :
 
-* **Type**:          java.lang.File
+* **Type**:          String (regex)
 * **Description**:    The mergeFilenamePattern used to find XML Document to merge. It have to return two groups, including the second is the name of the file in which it must be merged. The default pattern assume that the XML Document to be merged has the same name as the base XML Document
 *  **Default value** :  ()(.*)
