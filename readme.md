@@ -31,7 +31,8 @@ generate this last :
             <Logger name="second" level="WARN" />
     </Logging>
 </Root>
-``
+```
+
 
 For more information of merging possibility, read the documentation of https://github.com/hikage/xdt4j
 
