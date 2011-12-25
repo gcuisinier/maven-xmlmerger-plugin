@@ -64,29 +64,29 @@ Until the plugin is in the Maven Central, to use it, you had to add this reposit
 
 ### xmlmerger:mergexml
 
-#### Parameters
+Here is the availables parameters for this goal :
 
 **baseDirectory** :
 
-* **Type **:          java.lang.File
+* **Type**:          java.lang.File
 * **Description**:    The input directory in which the XML Document base can be found.
 *  **Default value** :  ${project.build.outputDirectory}
 
 **inputDirectory** :
 
-* **Type **:          java.lang.File
+* **Type**:          java.lang.File
 * **Description**:    The input directory in which the XML Merge Data can be found.
 *  **Default value** :  ${basedir}/src/main/xmlmerge
 
 
 **outputDirectory** :
 
-* **Type **:          java.lang.File
+* **Type**:          java.lang.File
 * **Description**:    The output directory into which to copy the genereated XML.
 *  **Default value** :  ${project.build.outputDirectory}
 
 **mergeFilenamePattern** :
 
-* **Type **:          java.lang.File
+* **Type**:          java.lang.File
 * **Description**:    The mergeFilenamePattern used to find XML Document to merge. It have to return two groups, including the second is the name of the file in which it must be merged. The default pattern assume that the XML Document to be merged has the same name as the base XML Document
 *  **Default value** :  ()(.*)
