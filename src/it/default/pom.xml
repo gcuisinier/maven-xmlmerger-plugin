@@ -22,7 +22,6 @@
                         <goals>
                             <goal>mergexml</goal>
                         </goals>
-
                     </execution>
                 </executions>
             </plugin>

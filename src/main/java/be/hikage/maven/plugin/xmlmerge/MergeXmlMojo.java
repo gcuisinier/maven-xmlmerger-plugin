@@ -96,6 +96,7 @@ public class MergeXmlMojo
 
         Pattern regex = Pattern.compile(mergeFilenamePattern);
 
+
         getLog().info("Search file that match " + mergeFilenamePattern);
         findXmlToMerge(inputDirectory, xmlFiles);
 
@@ -106,11 +107,10 @@ public class MergeXmlMojo
             for (File fileToMerge : xmlFiles) {
                 Matcher matcher = regex.matcher(fileToMerge.getName());
                 if (matcher.matches() && matcher.groupCount() == 2) {
+
                     String baseFileName = matcher.group(2);
 
-
                     File basefile = getBaseFile(fileToMerge, baseFileName);
-
                     File outputFile = getOutputFile(fileToMerge, baseFileName);
 
                     getLog().debug("Merge Base :" + basefile.getAbsolutePath());
@@ -155,7 +155,7 @@ public class MergeXmlMojo
     }
 
 
-    private void findXmlToMerge(File fileToProcess, List<File> xmlFiles) {
+    protected void findXmlToMerge(File fileToProcess, List<File> xmlFiles) {
 
         RegexFileFilter filter2 = new RegexFileFilter(mergeFilenamePattern);
 
