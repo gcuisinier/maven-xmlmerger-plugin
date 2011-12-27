@@ -282,13 +282,5 @@
     </reporting>
 
 
-    <!-- TODO: Remove when xdt4j will be in Maven Central -->
-    <repositories>
-        <repository>
-            <id>oss-sonatype</id>
-            <name>oss-sonatype</name>
-            <url>https://oss.sonatype.org/content/repositories/releases/</url>
-        </repository>
-    </repositories>
 
 </project>
