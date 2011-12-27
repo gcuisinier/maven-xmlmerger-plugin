@@ -73,6 +73,15 @@ public class MergeXmlMojo
 
 
     /**
+     * Flag to indicate if the Merge Document must be deleted after processing
+     *
+     * @parameter default-value="false"
+     * @required
+     */
+    private Boolean removeMergeDocumentAfterProcessing;
+
+
+    /**
      * The Xml Merge component instance that will be injected
      * by the Plexus runtime.
      *
@@ -122,6 +131,12 @@ public class MergeXmlMojo
                         Document result = xmlMerger.mergeXml(loadXml(basefile), loadXml(fileToMerge));
 
                         writeMergedXml(outputFile, result);
+                        
+                        if(removeMergeDocumentAfterProcessing){
+                            boolean fileDeleted =  fileToMerge.delete();
+                            if(!fileDeleted)
+                                getLog().warn("Unable to delete file :" + fileToMerge.getAbsolutePath());
+                        }
 
                     } else {
                         getLog().warn("No filebase found for " + fileToMerge.getAbsolutePath());
