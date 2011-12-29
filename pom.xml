@@ -66,6 +66,12 @@
         <developerConnection>scm:git:git@github.com:hikage/maven-xmlmerger-plugin.git</developerConnection>
     </scm>
 
+    <distributionManagement>
+        <site>
+            <id>opensource.hikage.be</id>
+            <url>scp://opensource.hikage.be/home/hikage/www/opensource.hikage.be/plugins/${project.artifactId}</url>
+        </site>
+    </distributionManagement>
 
     <dependencies>
         <dependency>

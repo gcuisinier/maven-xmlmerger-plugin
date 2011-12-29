@@ -1,13 +1,36 @@
+ ------
+ Usage
+ ------
+ Gildas Cuisinier
+ ------
+ 29 Decembre 2011
+ ------
+
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~   http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+
+
 Usage
-
-This plugin is used to merge XML Document.
-
 
 * How to merge XML Documents
 
-In order to use the Merge XML Document, the first thing to do is to add the configuration to the <<<pom.xml>>> files
+  In order to use the Merge XML Document, the first thing to do is to add the configuration to the <<<pom.xml>>> files:
 
--------------------
++-----
  <build>
         <plugins>
             <plugin>
@@ -23,10 +46,10 @@ In order to use the Merge XML Document, the first thing to do is to add the conf
                 </executions>
             </plugin>
         </plugins>
-    </build>
--------------------
+ </build>
++-----
 
-Then, you need to create XML files containing instructions for merging in <<<src/main/xmlmerge/>>>.
-Each file must have the same XML structure that the file in which it will be merge, but with some XDT processing instruction.
+  Then, you need to create XML files containing instructions for merging in <<<src/main/xmlmerge/>>>.
+  Each file must have the same XML structure that the file in which it will be merge, but with some XDT processing instruction.
 
-By default, each file found un the <<<src/main/xmlmerge/>>> directory will be merge into a file of the same name in the <<<${project.build.outputDirectory}>>>
+  By default, each file found un the <<<src/main/xmlmerge/>>> directory will be merge into a file of the same name in the <<<${project.build.outputDirectory}>>>
