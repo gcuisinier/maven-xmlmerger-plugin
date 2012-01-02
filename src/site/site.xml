@@ -10,6 +10,7 @@
             <item name="Goals" href="plugin-info.html"/>
             <item name="Usage" href="usage.html"/>
         </menu>
+        <menu ref="reports"/>
 
 
     </body>
