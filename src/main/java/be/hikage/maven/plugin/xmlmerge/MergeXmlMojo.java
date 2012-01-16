@@ -94,7 +94,7 @@ public class MergeXmlMojo
      * It have to return two groups, including the second is the name of the file in which it must be merged.
      * The default pattern assume that the XML Document to be merged has the same name as the base XML Document
      *
-     * @parameter default-value="()(.*)"
+     * @parameter default-value="()(.*\[xX][mM][lL])"
      * @required
      */
     private String mergeFilenamePattern;
