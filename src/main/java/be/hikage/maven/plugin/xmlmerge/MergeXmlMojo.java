@@ -16,12 +16,14 @@
 
 package be.hikage.maven.plugin.xmlmerge;
 
+import be.hikage.maven.plugin.xmlmerge.utils.Dom4JUtils;
 import be.hikage.maven.plugin.xmlmerge.utils.PathUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.codehaus.plexus.util.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.io.OutputFormat;
@@ -90,6 +92,14 @@ public class MergeXmlMojo
     private XmlMerger xmlMerger;
 
     /**
+     * Flag to indicate that the text contained in prolog must be filtered before applying
+     *
+     * @parameter default-value="false"
+     * @required
+     */
+    private Boolean processProlog;
+
+    /**
      * The mergeFilenamePattern used to find XML Document to merge.
      * It have to return two groups, including the second is the name of the file in which it must be merged.
      * The default pattern assume that the XML Document to be merged has the same name as the base XML Document
@@ -101,6 +111,8 @@ public class MergeXmlMojo
 
     public void execute() throws MojoExecutionException {
         getLog().info("EXECUTE on " + outputDirectory.getAbsolutePath());
+        getLog().info("Process prolog : " + processProlog);
+
         List<File> xmlFiles = new ArrayList<File>();
 
         Pattern regex = Pattern.compile(mergeFilenamePattern);
@@ -128,9 +140,11 @@ public class MergeXmlMojo
 
                     if (basefile.exists()) {
 
-                        Document result = xmlMerger.mergeXml(loadXml(basefile), loadXml(fileToMerge));
+                        StringBuilder prologHeader = processProlog?new StringBuilder():null;
+                        Document documentBase = Dom4JUtils.readDocument(basefile.toURI().toURL(),prologHeader);
+                        Document result = xmlMerger.mergeXml(documentBase, loadXml(fileToMerge));
 
-                        writeMergedXml(outputFile, result);
+                        writeMergedXml(outputFile, result, prologHeader);
                         
                         if(removeMergeDocumentAfterProcessing){
                             boolean fileDeleted =  fileToMerge.delete();
@@ -190,9 +204,17 @@ public class MergeXmlMojo
 
     }
 
-    private void writeMergedXml(File baseFile, Document base) throws IOException {
+    private void writeMergedXml(File baseFile, Document base, StringBuilder prologHeader) throws IOException {
         FileOutputStream fos = new FileOutputStream(baseFile);
+
+
+        if(processProlog && prologHeader != null && StringUtils.isNotEmpty(prologHeader.toString())){
+            fos.write(prologHeader.toString().getBytes());
+        }
+
         OutputFormat format = OutputFormat.createPrettyPrint();
+        format.setSuppressDeclaration(true);
+        format.setNewLineAfterDeclaration(false);
         XMLWriter writer = new XMLWriter(fos, format);
         writer.write(base);
         writer.flush();

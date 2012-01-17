@@ -95,7 +95,7 @@
         <dependency>
             <groupId>be.hikage</groupId>
             <artifactId>xdt4j</artifactId>
-            <version>1.0</version>
+            <version>1.0.1-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
                     <artifactId>xom</artifactId>
