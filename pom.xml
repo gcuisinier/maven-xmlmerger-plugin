@@ -66,10 +66,12 @@
     </scm>
 
     <distributionManagement>
+            <!--
         <site>
             <id>opensource.hikage.be</id>
             <url>scp://opensource.hikage.be/home/hikage/www/opensource.hikage.be/plugins/${project.artifactId}</url>
         </site>
+        -->
     </distributionManagement>
 
     <dependencies>
@@ -95,7 +97,7 @@
         <dependency>
             <groupId>be.hikage</groupId>
             <artifactId>xdt4j</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>1.0.1</version>
             <exclusions>
                 <exclusion>
                     <artifactId>xom</artifactId>

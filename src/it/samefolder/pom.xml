@@ -15,7 +15,7 @@
             <plugin>
                 <groupId>be.hikage.maven.plugins</groupId>
                 <artifactId>maven-xmlmerger-plugin</artifactId>
-                <version>1.0.1-SNAPSHOT</version>
+                <version>@project.version@</version>
                 <executions>
                     <execution>
                         <goals>
