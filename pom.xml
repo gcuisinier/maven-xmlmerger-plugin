@@ -28,7 +28,7 @@
     </parent>
 
     <name>maven-xmlmerger-plugin Maven Mojo</name>
-    <url>https://github.com/hikage/maven-xmlmerger-plugin</url>
+    <url>https://github.com/gcuisinier/maven-xmlmerger-plugin</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -60,9 +60,9 @@
     </developers>
 
     <scm>
-        <url>https://github.com/hikage/maven-xmlmerger-plugin</url>
-        <connection>scm:git:git@github.com:hikage/maven-xmlmerger-plugin.git</connection>
-        <developerConnection>scm:git:git@github.com:hikage/maven-xmlmerger-plugin.git</developerConnection>
+        <url>https://github.com/gcuisinier/maven-xmlmerger-plugin</url>
+        <connection>scm:git:git@github.com:gcuisinier/maven-xmlmerger-plugin.git</connection>
+        <developerConnection>scm:git:git@github.com:gcuisinier/maven-xmlmerger-plugin.git</developerConnection>
     </scm>
 
     <distributionManagement>
@@ -97,7 +97,7 @@
         <dependency>
             <groupId>be.hikage</groupId>
             <artifactId>xdt4j</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
             <exclusions>
                 <exclusion>
                     <artifactId>xom</artifactId>
