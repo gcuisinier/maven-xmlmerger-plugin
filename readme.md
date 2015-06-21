@@ -44,26 +44,6 @@ For more information of merging possibility, read the documentation of https://g
 
 Usage
 =====
-##Maven Repository
-
-Until the plugin is in the Maven Central, to use it, you had to add this repository :
-
-```xml
-     <pluginRepositories>
-        <pluginRepository>
-          <id>OSS Sonatype</id>
-          <name>OSS Sonatype Repository</name>
-          <url> https://oss.sonatype.org/content/groups/public</url>
-          <layout>default</layout>
-          <snapshots>
-            <enabled>true</enabled>
-          </snapshots>
-          <releases>
-            <updatePolicy>never</updatePolicy>
-          </releases>
-        </pluginRepository>
-      </pluginRepositories>
-```
 
 
 
